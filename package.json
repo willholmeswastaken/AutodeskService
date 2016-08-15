@@ -1,0 +1,13 @@
+{
+  "name": "auto-service",
+  "version": "0.0.0",
+  "description": "AutoService",
+  "main": "server.js",
+  "author": {
+    "name": "Will"
+  },
+  "dependencies": {
+    "express": "^4.14.0",
+    "view-and-data": "^2.0.1"
+  }
+}

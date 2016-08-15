@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Holmes Autodesk api service</title>
+    <link rel="stylesheet" href="https://developer.api.autodesk.com/viewingservice/v1/viewers/style.min.css" type="text/css">
+    <link rel="stylesheet" href="https://developer.api.autodesk.com/viewingservice/v1/viewers/A360.css" type="text/css">
+</head>
+<body onload="initialize();">
+    <div id="viewer"></div>
+<script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/three.min.js"></script>
+<script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/viewer3D.min.js"></script>
+<script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/Autodesk360App.js"></script>
+<script>
+    function initialize() {
+        var options = {
+            'document': 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bGVhbnBpZW1hbnVmYWN0dXJpbmcxMjMtYnVja2V0L3Rlc3QuZHdm',
+            'env': 'AutodeskProduction',
+            'getAccessToken': getToken,
+            'refreshToken': getToken,
+        };
+        var viewerElement = document.getElementById('viewer');
+        var viewer = new Autodesk.Viewing.Viewer3d(viewerElement, {});
+        Autodesk.Viewing.Initializer
+        {
+            options,
+                function() {
+                    viewer.initialize();
+                    loadDocument(viewer, option.document);
+                }
+        }
+    }
+
+    function getToken() {
+        var theUrl = '/api/refreshToken'; //change when deploying...
+        var xmlHttp = null;
+        xmlHttp = new XMLHttpRequest();
+        xmlHttp.open('GET', theUrl, false);
+        xmlHttp.send(null);
+        return xmlHttp.responseText;
+    }
+
+    function loadDocument(viewer, documentId) {
+        //find the first 3d geometry and load that
+        Autodesk.Viewing.Doucment.load(
+            documentId,
+            function(doc) { //onloadcallback
+                var geometryItems = [];
+                geometryItems = Autodesk.Viewing.Document.getSubItemsWithProperties(doc.getRootItem(),
+                    {
+                        'type': 'geometry',
+                        'role': '3d'
+                    },
+                    true);
+                if (geometryItems.length > 0) {
+                    viewer.load(doc.getViewablePath(geometryItems[0]));
+                }
+            },
+            //If its an error received...
+            function(errorMsg) {
+                alert('Load Error:' + errorMsg);
+            }
+        )
+    };
+
+
+</script>
+
+<div id="viewer" style="position: absolute; width: 90%; height: 60%;"></div>
+</body>
+</html>
