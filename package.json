@@ -7,7 +7,10 @@
     "name": "Will"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
+    "connect-busboy": "0.0.2",
     "express": "^4.14.0",
+    "multer": "^1.2.0",
     "view-and-data": "^2.0.1"
   }
 }

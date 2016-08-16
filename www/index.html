@@ -19,23 +19,36 @@
     </style>
 </head>
 <body>
-<input type="file" id="upl"/>
-    <button type="button" onclick="postFile(); return false">POST</button>
-<div id="MyViewerDiv"></div>
+    <div id="MyViewerDiv"></div>
 
-<!-- The Viewer JS -->
+    <!-- The Viewer JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/three.min.js"></script>
-<script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/viewer3D.min.js"></script>
-<script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/Autodesk360App.js"></script>
+    <script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/three.min.js"></script>
+    <script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/viewer3D.min.js"></script>
+    <script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/Autodesk360App.js"></script>
 
-<!-- Developer JS -->
-<script>
+    <!-- Developer JS -->
+    <script>
 var urn = getParameterByName('urn');
 
-    $(function() {
-        initialisetheLoader();
+function post() {
+    var data = new FormData();
+    var file = document.getElementById('upl').files[0];
+    data.append('File', file);
+    $.ajax({
+        url: "/PostDrawing",
+        data: data,
+        type: 'POST',
+        success: function (res) {
+            urn = res;
+            alert(urn);
+        }
     })
+}
+
+$(function () {
+    initialisetheLoader();
+})
 
 function initialisetheLoader() {
 
@@ -59,25 +72,25 @@ function initialisetheLoader() {
 }
 
 
-    function getToken() {
-        var theUrl = '/api/refreshToken';
-        var xmlHttp = null;
-        xmlHttp = new XMLHttpRequest();
-        xmlHttp.open('GET', theUrl, false);
-        xmlHttp.send(null);
-        return xmlHttp.responseText;
-    }
+function getToken() {
+    var theUrl = '/api/refreshToken';
+    var xmlHttp = null;
+    xmlHttp = new XMLHttpRequest();
+    xmlHttp.open('GET', theUrl, false);
+    xmlHttp.send(null);
+    return xmlHttp.responseText;
+}
 
 function postFile() {
     var data = new FormData();
     var files = document.getElementById('upl').files[0];
     console.log(files);
-    data.append("UploadedImage", files[0].Value);
+    data.append("File", files[0].Value);
     $.ajax({
         url: "/PostDrawing",
         data: data,
         type: 'POST',
-        success: function(response) {
+        success: function (response) {
             //response is the urn
             urn = response;
             initialisetheLoader();
@@ -85,17 +98,17 @@ function postFile() {
     })
 }
 
-    //Get Querystring
-    function getParameterByName(name, url) {
-        if (!url) url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
+//Get Querystring
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
 
-</script>
+    </script>
 </body>
 </html>

@@ -6,6 +6,23 @@
     <title></title>
 </head>
 <body>
-    holmes is awesome!
+<input type="file" id="upl"/>
+<button type="button" onclick="postFile();"></button>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+    function postFile() {
+        var file = document.getElementById('upl').files[0];
+        var data = new FormData();
+        data.append('File', file);
+        $.ajax({
+            url: "/drawing",
+            data: data,
+            type: 'POST',
+            success:function(urn) {
+                console.log("done");
+            }
+        })
+    }
+</script>
 </body>
 </html>

@@ -1617,13 +1617,15 @@
     <Content Include="package.json" />
     <Content Include="README.md" />
     <Content Include="www\old.html" />
-    <Content Include="www\Index.html" />
+    <Content Include="www\index.html" />
     <Content Include="www\UploadService.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="rawfiles\" />
     <Folder Include="routes\" />
+    <Folder Include="typings\globals\body-parser\" />
     <Folder Include="typings\globals\express\" />
+    <Folder Include="typings\globals\multer\" />
     <Folder Include="www\" />
     <Folder Include="node_modules\" />
     <Folder Include="node_modules\view-and-data\" />
@@ -1908,7 +1910,9 @@
     <Folder Include="typings\globals\node\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="typings\globals\body-parser\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\express\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\multer\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\node\index.d.ts" />
     <TypeScriptCompile Include="typings\index.d.ts" />
   </ItemGroup>

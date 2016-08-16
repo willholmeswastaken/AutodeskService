@@ -2,12 +2,18 @@
 var Lmv = require('./node_modules/view-and-data/view-and-data');
 var path = require('path');
 
+var server = require('./server.js');
+
 //only fill up requested fields, other fields are defaulted
 var config = require('./config-view-and-data');
-var token = getToken();
 
+var exports = module.exports = {};
 
-function getToken() {
+var theurn = "";
+exports.targeturn = "";
+var isdone = false;
+
+exports.getToken = function() {
 
 
     var lmv = new Lmv(config);
@@ -26,25 +32,26 @@ function getToken() {
 
 }
 
-function postDrawing(physicalPath) {
+exports.postDrawing = function(physicalPath) {
     //Get the bucket...
-
+    theurn = "";
     var lmv = new Lmv(config);
 
     lmv.initialize().then(onInitialized, onError);
 
-    this.timeout(5 * 60 * 1000); //5 mins timeout
+   /* this.timeout(5 * 60 * 1000); *///5 mins timeout
 
     var lmv = new Lmv(config);
 
     function onError(error) {
-
+        console.log("we are erroring");
         console.log(error)
         done(error);
     }
 
     function onInitialized(response) {
 
+        console.log("we are init");
         var createIfNotExists = true;
 
         var bucketCreationData = {
@@ -62,6 +69,7 @@ function postDrawing(physicalPath) {
 
     function onBucketCreated(response) {
 
+        console.log("we are creating bucket");
         //lmv.resumableUpload(
         //    path.join(physicalPath),
         //Above we declare where the file is, below we give the bucket key that we use.
@@ -78,6 +86,7 @@ function postDrawing(physicalPath) {
 
     function onUploadCompleted(response) {
 
+        console.log("we are upload complete");
         var fileId = response.objects[0].id;
 
         urn = lmv.toBase64(fileId);
@@ -101,6 +110,7 @@ function postDrawing(physicalPath) {
 
     function onRegister(response) {
 
+        console.log("we are registering");
         if (response.Result === "Success") {
 
             console.log('Translating file...');
@@ -108,8 +118,8 @@ function postDrawing(physicalPath) {
             lmv.checkTranslationStatus(
                 urn, 1000 * 60 * 5, 1000 * 10,
                 progressCallback).then(
-                onTranslationCompleted,
-                onError);
+                onTranslationCompleted
+                );
         }
         else {
             done(response);
@@ -123,14 +133,17 @@ function postDrawing(physicalPath) {
 
     function onTranslationCompleted(response) {
 
+        console.log("we are completing translation");
         console.log('URN: ' + response.urn);
 
         lmv.getThumbnail(urn).then(onThumbnail, onError);
-        returnurn = response.urn;
+        theurn = response.urn;
+
     }
 
     function onThumbnail(response) {
 
+        console.log("we are thumbnailing");
         console.log('Thumbnail Size: ' + response.length);
         done();
     }
@@ -138,5 +151,14 @@ function postDrawing(physicalPath) {
     //start the test
     lmv.initialize().then(onInitialized, onError);
 
-    return returnurn;
+}
+
+exports.checkDone = function() {
+    if (theurn == "") {
+        setTimeout(exports.checkDone, 50);
+        return "";
+    }
+    console.log("were done");
+    console.log("the urn we have is: " + theurn);
+    exports.targeturn = theurn;
 }
