@@ -38,7 +38,7 @@ exports.postDrawing = function(physicalPath) {
     var lmv = new Lmv(config);
 
     lmv.initialize().then(onInitialized, onError);
-
+    exports.targeturn = "";
    /* this.timeout(5 * 60 * 1000); *///5 mins timeout
 
     var lmv = new Lmv(config);
