@@ -34,6 +34,7 @@ app.use('/api', api);
 
 app.post('/drawing', function (req, res) {
     console.log(req.body.fileurl);
+    proc.targeturn = "";
     var filename = path.basename(req.body.fileurl);
     var filepath = './rawfiles/' + filename;
     var file = fs.createWriteStream(filepath);
@@ -50,7 +51,6 @@ app.post('/drawing', function (req, res) {
             console.log("weve done it");
             console.log(proc.targeturn);
             res.end(proc.targeturn);
-            proc.targeturn = "";
         }
     }
 
