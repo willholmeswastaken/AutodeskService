@@ -3,9 +3,9 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var fs = require('fs');
-var urn = "";
-var proc = require('./Process.js');
 
+var proc = require('./Process.js');
+var cors = require('cors');
 var bodyParser = require("body-parser");
 
 var platformUrl = "http://leanpie.igs-solutions.co.uk/";
@@ -14,15 +14,17 @@ var app = express();
 var server = http.createServer(app);
 var api = require('./routes/api');
 
+app.use(cors());
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+//app.use(function (req, res, next) {
+//    res.header("Access-Control-Allow-Origin", "*");
+//    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//    next();
+//});
 
 app.use('/', express.static(path.resolve(__dirname, 'www')));
 app.use('/Service', express.static(path.resolve(__dirname, 'www/UploadService.html')));
