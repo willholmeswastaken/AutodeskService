@@ -50,6 +50,7 @@ app.post('/drawing', function (req, res) {
             console.log("weve done it");
             console.log(proc.targeturn);
             res.end(proc.targeturn);
+            proc.targeturn = "";
         }
     }
 
