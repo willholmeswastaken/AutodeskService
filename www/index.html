@@ -75,8 +75,10 @@ function initialisetheLoader() {
 function getToken() {
     var theUrl = 'https://leanpiemodeller.herokuapp.com/api/refreshToken';
     var xmlHttp = null;
+    console.log("before we do da request");
     xmlHttp = new XMLHttpRequest();
     xmlHttp.open('GET', theUrl, false);
+    console.log("after we do da request");
     xmlHttp.send(null);
     return xmlHttp.responseText;
 }
