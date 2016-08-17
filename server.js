@@ -35,6 +35,7 @@ app.use('/Service', express.static(path.resolve(__dirname, 'www/UploadService.ht
 app.use('/api', api);
 
 app.post('/drawing', function (req, res) {
+    proc.targeturn = "";
     console.log(req.body.fileurl);
     console.log(req.body.ext);
     var filename = guid.raw();

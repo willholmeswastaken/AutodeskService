@@ -37,10 +37,10 @@ exports.postDrawing = function(physicalPath) {
     theurn = "";
     var lmv = new Lmv(config);
 
-    lmv.initialize().then(onInitialized, onError);
+    //lmv.initialize().then(onInitialized, onError);
     
    /* this.timeout(5 * 60 * 1000); *///5 mins timeout
-
+    console.log("Initial URN " + exports.targeturn);
     var lmv = new Lmv(config);
 
     function onError(error) {
@@ -161,4 +161,5 @@ exports.checkDone = function() {
     console.log("were done");
     console.log("the urn we have is: " + theurn);
     exports.targeturn = theurn;
+    console.log("Ending URN: " + exports.targeturn);
 }
