@@ -3,6 +3,7 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var fs = require('fs');
+var request = require('request');
 
 var proc = require('./Process.js');
 var cors = require('cors');
@@ -15,6 +16,7 @@ var platformUrl = "http://leanpie.igs-solutions.co.uk/";
 var app = express();
 var server = http.createServer(app);
 var api = require('./routes/api');
+var guid = require('guid');
 
 //app.use(cors());
 
@@ -34,13 +36,13 @@ app.use('/api', api);
 
 app.post('/drawing', function (req, res) {
     console.log(req.body.fileurl);
-    var filename = path.basename(req.body.fileurl);
-    var filepath = './rawfiles/' + filename;
+    console.log(req.body.ext);
+    var filename = guid.raw();
+    var filepath = './rawfiles/' + filename + req.body.ext;
     var file = fs.createWriteStream(filepath);
-    var request = http.get(platformUrl + req.body.fileurl,
-        function(response) {
-            response.pipe(file);
-        });
+    var targeturl = platformUrl + req.body.fileurl;
+    console.log("targeturl" + targeturl);
+    request.get(targeturl).pipe(file);
     proc.postDrawing(filepath);
     proc.checkDone();
     function y() {
@@ -54,6 +56,13 @@ app.post('/drawing', function (req, res) {
     }
 
     y();
+})
+
+
+app.post('/test', function (req, res) {
+    request.get('http://leanpie.igs-solutions.co.uk/Handlers/Documents/Download.ashx?FileID=610')
+        .pipe(fs
+            .createWriteStream('testholmes.sldprt'));
 })
 
 

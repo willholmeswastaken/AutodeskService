@@ -11,7 +11,9 @@
     "connect-busboy": "0.0.2",
     "cors": "^2.7.1",
     "express": "^4.14.0",
+    "guid": "0.0.12",
     "multer": "^1.2.0",
+    "request": "^2.74.0",
     "view-and-data": "^2.0.1"
   }
 }

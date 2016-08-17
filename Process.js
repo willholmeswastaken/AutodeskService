@@ -38,7 +38,7 @@ exports.postDrawing = function(physicalPath) {
     var lmv = new Lmv(config);
 
     lmv.initialize().then(onInitialized, onError);
-    exports.targeturn = "";
+    
    /* this.timeout(5 * 60 * 1000); *///5 mins timeout
 
     var lmv = new Lmv(config);
@@ -55,12 +55,12 @@ exports.postDrawing = function(physicalPath) {
         var createIfNotExists = true;
 
         var bucketCreationData = {
-            bucketKey: config.defaultBucketKey,
+            bucketKey: config.holmeskey,
             servicesAllowed: [],
             policy: "transient"
         };
 
-        lmv.getBucket(config.defaultBucketKey,
+        lmv.getBucket(config.holmeskey,
             createIfNotExists,
             bucketCreationData).then(
             onBucketCreated,
@@ -80,7 +80,7 @@ exports.postDrawing = function(physicalPath) {
         //Physical path is the route of the file we are uploading...
         lmv.resumableUpload(
             path.join(physicalPath),
-            config.defaultBucketKey,
+            config.holmeskey,
             path.basename(physicalPath)).then(onResumableUploadCompleted, onError);
     }
 

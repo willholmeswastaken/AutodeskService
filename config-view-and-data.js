@@ -25,8 +25,8 @@ module.exports = {
 
   // Default bucketKey, used for testing
   // needs to be unique so you better modify it
-  defaultBucketKey: 'leanpiemanufacturing123-bucket',
-
+  defaultBucketKey: 'leanpiemanufacturing12345jhgfd-bucket',
+  holmeskey: 'leanpiebuck12345678-bucket',
   // Replace with your own API credentials:
   // http://developer.autodesk.com
   credentials: {
