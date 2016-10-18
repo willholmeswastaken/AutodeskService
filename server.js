@@ -11,7 +11,7 @@ var bodyParser = require("body-parser");
 
 var herokuURL = 'https://leanpiemodeller.herokuapp.com';
 
-var platformUrl = "http://leanpie.igs-solutions.co.uk/";
+var platformUrl = "http://78.109.166.170/";
 
 var app = express();
 var server = http.createServer(app);
